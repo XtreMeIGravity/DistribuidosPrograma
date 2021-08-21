@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,7 +120,6 @@ public class jsonConnector {
             });
             // putting address to JSONObject
             obj.put("Clientes", ja);
-            System.out.println("Escribi en el archivo");
 
             pw = new PrintWriter(FileName);
             pw.write(obj.toJSONString());
@@ -159,7 +159,12 @@ public class jsonConnector {
             Cliente clienteBusqueda = clientes.get(i);
             if (clienteBusqueda.equals(clienteTMP)) {
                 System.out.println("Cliente a Eliminar:" + clienteBusqueda.getAlias());
-                clientes.remove(i);
+                Scanner tec = new Scanner(System.in);
+                System.out.println("¿Seguro que desea eliminar?  \n 1)Si \n 2)No");
+                int opc = tec.nextInt();
+                if (opc == 1) {
+                    clientes.remove(i);
+                }
                 return true;
             }
         }
@@ -195,7 +200,6 @@ public class jsonConnector {
             Cliente clienteBusqueda = iterator.next();
             if (clienteBusqueda.getAlias().equals(busqueda)
                     || clienteBusqueda.getRfc().equals(busqueda)) {
-                System.out.println("Resultado de busqueda :" + clienteBusqueda.getAlias());
                 return clienteBusqueda;
             }
         }
@@ -209,13 +213,13 @@ public class jsonConnector {
         //lectura de los clientes
         clientes.forEach((clienteTMP) -> {
             System.out.println("Alias:" + clienteTMP.getAlias());
-            System.out.println("Nombre" + clienteTMP.getNombre());
-            System.out.println("Primer Apellido" + clienteTMP.getPrimerApellido());
-            System.out.println("Segundo Apellido" + clienteTMP.getSegundoApellido());
-            System.out.println("Razon Social" + clienteTMP.getRazonSocial());
-            System.out.println("rfc" + clienteTMP.getRfc());
-            System.out.println("telefono" + clienteTMP.getTelefono());
-            System.out.println("correo" + clienteTMP.getCorreo());
+            System.out.println("Nombre:" + clienteTMP.getNombre());
+            System.out.println("Primer Apellido:" + clienteTMP.getPrimerApellido());
+            System.out.println("Segundo Apellido:" + clienteTMP.getSegundoApellido());
+            System.out.println("Razon Social:" + clienteTMP.getRazonSocial());
+            System.out.println("rfc:" + clienteTMP.getRfc());
+            System.out.println("telefono:" + clienteTMP.getTelefono());
+            System.out.println("correo:" + clienteTMP.getCorreo());
             System.out.println("--------------------------------------------");
         });
     }

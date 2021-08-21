@@ -32,6 +32,7 @@ public class interfaceController {
      */
     public static void listClients() {
         jsonConnector jsonConect = new jsonConnector();
+        System.out.println("=======CLIENTES========");
         jsonConect.listClients();
         jsonConect.close();
     }
@@ -56,18 +57,21 @@ public class interfaceController {
         jsonConnector jsonConect = new jsonConnector();
         Cliente tmp = jsonConect.searchClient(busqueda);
         Cliente tmpModificado = new Cliente();
-        System.out.println("El Alias no puede ser modificado");
-        tmpModificado.setAlias(tmp.getAlias());
+        if (tmp == null) {
+            System.out.println("El Alias no puede ser modificado");
+        } else {
 
-        tmpModificado = modificarString("Nombre", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("Primer Apellido", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("Segundo Apellido", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("Razon social", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("rfc", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("correo", tmp, tmpModificado, teclado);
-        tmpModificado = modificarString("telefono", tmp, tmpModificado, teclado);
-
-        jsonConect.modifyClient(tmp, tmpModificado);
+            tmpModificado.setAlias(tmp.getAlias());
+            System.out.println("=======MODIFICAR CLIENTE========");
+            tmpModificado = modificarString("Nombre", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("Primer Apellido", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("Segundo Apellido", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("Razon social", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("rfc", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("correo", tmp, tmpModificado, teclado);
+            tmpModificado = modificarString("telefono", tmp, tmpModificado, teclado);
+            jsonConect.modifyClient(tmp, tmpModificado);
+        }
         jsonConect.close();
     }
 
@@ -175,54 +179,59 @@ public class interfaceController {
         Scanner teclado = new Scanner(System.in);
         Cliente tmp = new Cliente();
 
-        String aliasString;
+        System.out.println("=======AGREGAR CLIENTE========");
+        String aliasString = "";
         do {
+            if (jsonConect.searchClient(aliasString) != null) {
+                System.out.println("Ya existe el alias");
+            }
             System.out.println("Escribe el Alias del nuevo usuario");
             aliasString = teclado.nextLine();
+            if (aliasString.equals("")) {
+                return;
+            }
             tmp.setAlias(aliasString);
-        } while (!aliasString.equals(""));
+        } while (jsonConect.searchClient(aliasString) != null);
 
         String nombreString;
         do {
             System.out.println("Escribe el Nombre del nuevo usuario");
             nombreString = teclado.nextLine();
             tmp.setNombre(nombreString);
-        } while (!nombreString.equals(""));
+        } while (nombreString.equals(""));
 
         String primerApellido;
         do {
             System.out.println("Escribe el Primer Apellido del nuevo usuario");
             primerApellido = teclado.nextLine();
             tmp.setPrimerApellido(primerApellido);
-        } while (!primerApellido.equals(""));
+        } while (primerApellido.equals(""));
 
         String segundoApellido;
-        do {
-            System.out.println("Escribe el Segundo Apellido del nuevo usuario");
-            segundoApellido = teclado.nextLine();
-            tmp.setSegundoApellido(segundoApellido);
-        } while (!segundoApellido.equals(""));
+        System.out.println("Escribe el Segundo Apellido del nuevo usuario(Opcional)");
+        segundoApellido = teclado.nextLine();
+        tmp.setSegundoApellido(segundoApellido);
 
         String razonSocial;
         do {
             System.out.println("Escribe el Razon social del nuevo usuario");
             razonSocial = teclado.nextLine();
             tmp.setRazonSocial(razonSocial);
-        } while (!razonSocial.equals(""));
+        } while (razonSocial.equals(""));
 
         String rfcString;
         do {
             System.out.println("Escribe el rfc del nuevo usuario");
             rfcString = teclado.nextLine();
             tmp.setRfc(rfcString);
-        } while (!rfcString.equals(""));
+        } while (rfcString.equals(""));
 
         String correoString;
         do {
             System.out.println("Escribe el correo del nuevo usuario");
             correoString = teclado.nextLine();
             tmp.setCorreo(correoString);
-        } while (!rfcString.equals(""));
+        } while (rfcString.equals(""));
 
         System.out.println("Escribe el telefono del nuevo usuario");
         tmp.setTelefono(teclado.nextLong());
